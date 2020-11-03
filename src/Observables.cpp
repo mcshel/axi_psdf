@@ -118,7 +118,7 @@ void Observables::pv_mag(int N, double R, double z, double* result, double toler
     double psiRz = std::real(Observables::model->psi(R2, z2, std::sqrt(R2 + z2)));
     double vEsc = std::sqrt(2. * psiRz);
     //double rhoRz = std::real(Observables::model->rho(R2, z2, std::sqrt(R2 + z2)));
-    double rhoRz = Observables::rho_int(R2, z2, tolerance);
+    double rhoRz = Observables::rho_int(R, z, tolerance);
     
     
     /*
@@ -213,7 +213,7 @@ void Observables::pv_merid(int N, double R, double z, double* result, double tol
     double psiRz = std::real(Observables::model->psi(R2, z2, std::sqrt(R2 + z2)));
     double vEsc = std::sqrt(2. * psiRz);
     //double rhoRz = std::real(Observables::model->rho(R2, z2, std::sqrt(R2 + z2)));
-    double rhoRz = Observables::rho_int(R2, z2, tolerance);
+    double rhoRz = Observables::rho_int(R, z, tolerance);
     
     /*
     for (int i = 0; i < N; i++) {
@@ -296,7 +296,7 @@ void Observables::pv_azim(int N, double R, double z, double* result, double tole
     double psiRz = std::real(Observables::model->psi(R2, z2, std::sqrt(R2 + z2)));
     double vEsc = std::sqrt(2. * psiRz);
     //double rhoRz = std::real(Observables::model->rho(R2, z2, std::sqrt(R2 + z2)));
-    double rhoRz = Observables::rho_int(R2, z2, tolerance);
+    double rhoRz = Observables::rho_int(R, z, tolerance);
     
     /*
     for (int i = 0; i < N; i++) {
@@ -403,7 +403,7 @@ void Observables::pv_rad(int N, double R, double z, double* result, double toler
     double psiRz = std::real(Observables::model->psi(R2, z2, std::sqrt(R2 + z2)));
     double vEsc = std::sqrt(2. * psiRz);
     //double rhoRz = std::real(Observables::model->rho(R2, z2, std::sqrt(R2 + z2)));
-    double rhoRz = Observables::rho_int(R2, z2, tolerance);
+    double rhoRz = Observables::rho_int(R, z, tolerance);
     
     /*
     for (int i = 0; i < N; i++) {
@@ -447,7 +447,7 @@ double Observables::v_mom(int mom, double R, double z, double tolerance) {
     double vEsc = std::sqrt(2. * psiRz);
     double result, abserr;
     //double rhoRz = std::real(Observables::model->rho(R2, z2, std::sqrt(R2 + z2)));
-    double rhoRz = Observables::rho_int(R2, z2, tolerance);
+    double rhoRz = Observables::rho_int(R, z, tolerance);
         
     struct velocity_int_params p = {Observables::model, Observables::inversion, Observables::nIntervals, tolerance, R, psiRz, 0, 1. * mom};
     //    rho_int_v(v, &p);

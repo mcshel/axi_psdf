@@ -29,14 +29,16 @@ int main(int argc, char **argv) {
     time_t tStart = time(NULL);
     
     // Define struct with DM halo parameters. Here we asume spherical DM density profile with density 1e7 M_sol / kpc^3 and scale density of 13 kpc.
-    halo_2p p_nfw = {1e8, 15.};
+    halo_2p p_nfw = {6.58567e6, 17.581865};
     // Initialize the DM halo object.
     Halo_NFW halo(p_nfw);
     
     // Define structs related to the baryonic distribution. In this example we assume a model consisting of tow Myiamoto-Nagai disks and a spherical Hernquist bulge.
-    disk_3p disk1 = {5e10, 3.6, 0.3};
-    disk_3p disk2 = {0., 1., 1.};
-    bulge_2p bulge = {1e10, 1.};
+    disk_3p disk1 = {1.421842409523393250e+10, 0, 20 + 10};
+    disk_3p disk2 = {4.084473230724487305e+10, 0, 9.404962527834667796 + 2.160505216985519413e-16};
+    //disk_3p disk1 = {0, 1., 1.};
+    //disk_3p disk2 = {0, 1., 1.};
+    bulge_2p bulge = {1.579161017229150772e+10, 4.805440103887985703e-01};
     // Initialize the baryonic model
     Baryons_H_2MN baryons(disk1, disk2, bulge);
     
@@ -44,7 +46,7 @@ int main(int argc, char **argv) {
     Model model(&halo, &baryons);
     
     // Interpolate the PSDF obtained for the specified galactic model with given number of relative energy and angular momentum points
-    Inversion psdf(&model, 500, 20);
+    Inversion psdf(&model, 100, 20, 1e-3, 1);
     
     // Initialize the class for computing various observable quantities from the PSDF (namely DM density and various projections of the velocity distribution)
     Observables obs(&model, &psdf);
