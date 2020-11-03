@@ -34,11 +34,9 @@ int main(int argc, char **argv) {
     Halo_NFW halo(p_nfw);
     
     // Define structs related to the baryonic distribution. In this example we assume a model consisting of tow Myiamoto-Nagai disks and a spherical Hernquist bulge.
-    disk_3p disk1 = {1.421842409523393250e+10, 0, 20 + 10};
-    disk_3p disk2 = {4.084473230724487305e+10, 0, 9.404962527834667796 + 2.160505216985519413e-16};
-    //disk_3p disk1 = {0, 1., 1.};
-    //disk_3p disk2 = {0, 1., 1.};
-    bulge_2p bulge = {1.579161017229150772e+10, 4.805440103887985703e-01};
+    disk_3p disk1 = {0, 3.6, 0.3};
+    disk_3p disk2 = {0., 1., 1.};
+    bulge_2p bulge = {1e10, 5.};
     // Initialize the baryonic model
     Baryons_H_2MN baryons(disk1, disk2, bulge);
     
@@ -46,7 +44,7 @@ int main(int argc, char **argv) {
     Model model(&halo, &baryons);
     
     // Interpolate the PSDF obtained for the specified galactic model with given number of relative energy and angular momentum points
-    Inversion psdf(&model, 100, 20, 1e-3, 1);
+    Inversion psdf(&model, 500, 20, 1e-3, 1);
     
     // Initialize the class for computing various observable quantities from the PSDF (namely DM density and various projections of the velocity distribution)
     Observables obs(&model, &psdf);
@@ -61,6 +59,7 @@ int main(int argc, char **argv) {
         Rpts[i] = std::pow(10., logRmin + (logRmax - logRmin) * i / (nPts - 1));
         zpts[i] = 0;
     }
+    /*
     obs.rho(nPts, Rpts, zpts, result);
     std::ofstream out_density("out/density.dat");
     for (int i = 0; i < nPts; i++) {
@@ -69,11 +68,11 @@ int main(int argc, char **argv) {
         if (verbose) std::cout << "rho(" << Rpts[i] << "): " << result[i] << " / " << rho_true << " (" << result[i] / rho_true << ")" << std::endl;
     }
     out_density.close();
+    */
     
-    
-    int nVel = 100;
-    double pv_mag[2 * nVel], pv_merid[2 * nVel], pv_azim[2 * nVel], pv_rad[2 * nVel];
-    
+    int nVel = 10;
+    double pv_mag[2 * nVel], pv_merid[2 * nVel], pv_azim[2 * nVel], pv_rad[2 * nVel], pv_rel[2 * nVel];
+    /*
     // Tabulate the magnitude of DM velocity distribution and write it to a file
     obs.pv_mag(nVel, 8.122, 0, pv_mag);
     std::ofstream out_pv_mag("out/pv_mag.dat");
@@ -109,6 +108,15 @@ int main(int argc, char **argv) {
         if (verbose) std::cout << "pv_rad(" << pv_rad[2 * i] << "): " << pv_rad[2 * i + 1] << std::endl;
     }
     out_pv_rad.close();
+    */
+    
+    obs.pv_rel(nVel, 8.122, 0, pv_rel);
+    std::ofstream out_pv_rel("out/pv_rel.dat");
+    for (int i = 0; i < nVel; i++) {
+        out_pv_rel << pv_rel[2 * i] << "\t" << pv_rel[2 * i + 1] << "\n";
+        if (verbose) std::cout << "pv_rel(" << pv_rel[2 * i] << "): " << pv_rel[2 * i + 1] << std::endl;
+    }
+    out_pv_rel.close();
     
     double dt = difftime(time(NULL), tStart);
     std::cout << "Done in " << (int)dt/60 << "m " << (int)dt%60 << "s!" << std::endl;
