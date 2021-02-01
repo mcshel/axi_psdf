@@ -31,6 +31,7 @@ double rho_int_c(double c, void *params) {
     double E = (p->psiRz - 0.5 * std::pow(p->v,2)) / model->psi0;
     double Rc = model->Rcirc(E * model->psi0);
     double L = p->R * p->v * c / (std::pow(Rc, 2) * sqrt(-2. * std::real(model->psi_dR2(std::pow(Rc, 2), 0, Rc))));
+    //double L = c;
     
     return inversion->eval_F(E, L);
 }
@@ -624,7 +625,7 @@ double Observables::v_mom(int mom, double R, double z, double tolerance) {
 
 
 double Observables::occupation_int(double Emin, double Emax, double Lzmin, double Lzmax, double tolerance) {
-    
+    return 0;
 }
 
 

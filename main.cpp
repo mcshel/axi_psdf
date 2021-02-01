@@ -29,14 +29,14 @@ int main(int argc, char **argv) {
     time_t tStart = time(NULL);
     
     // Define struct with DM halo parameters. Here we asume spherical DM density profile with density 1e7 M_sol / kpc^3 and scale density of 13 kpc.
-    halo_2p p_nfw = {6.58567e6, 17.581865};
+    halo_2p p_nfw = {1e7, 13.};
     // Initialize the DM halo object.
     Halo_NFW halo(p_nfw);
     
     // Define structs related to the baryonic distribution. In this example we assume a model consisting of tow Myiamoto-Nagai disks and a spherical Hernquist bulge.
-    disk_3p disk1 = {0, 3.6, 0.3};
+    disk_3p disk1 = {5e10, 3.6, 0.4};
     disk_3p disk2 = {0., 1., 1.};
-    bulge_2p bulge = {1e10, 5.};
+    bulge_2p bulge = {7e9, 0.5};
     // Initialize the baryonic model
     Baryons_H_2MN baryons(disk1, disk2, bulge);
     
@@ -59,7 +59,7 @@ int main(int argc, char **argv) {
         Rpts[i] = std::pow(10., logRmin + (logRmax - logRmin) * i / (nPts - 1));
         zpts[i] = 0;
     }
-    /*
+    
     obs.rho(nPts, Rpts, zpts, result);
     std::ofstream out_density("out/density.dat");
     for (int i = 0; i < nPts; i++) {
@@ -68,11 +68,11 @@ int main(int argc, char **argv) {
         if (verbose) std::cout << "rho(" << Rpts[i] << "): " << result[i] << " / " << rho_true << " (" << result[i] / rho_true << ")" << std::endl;
     }
     out_density.close();
-    */
+    /**/
     
-    int nVel = 10;
+    int nVel = 100;
     double pv_mag[2 * nVel], pv_merid[2 * nVel], pv_azim[2 * nVel], pv_rad[2 * nVel], pv_rel[2 * nVel];
-    /*
+    
     // Tabulate the magnitude of DM velocity distribution and write it to a file
     obs.pv_mag(nVel, 8.122, 0, pv_mag);
     std::ofstream out_pv_mag("out/pv_mag.dat");
@@ -108,7 +108,7 @@ int main(int argc, char **argv) {
         if (verbose) std::cout << "pv_rad(" << pv_rad[2 * i] << "): " << pv_rad[2 * i + 1] << std::endl;
     }
     out_pv_rad.close();
-    */
+    /*
     
     obs.pv_rel(nVel, 8.122, 0, pv_rel);
     std::ofstream out_pv_rel("out/pv_rel.dat");
@@ -117,7 +117,7 @@ int main(int argc, char **argv) {
         if (verbose) std::cout << "pv_rel(" << pv_rel[2 * i] << "): " << pv_rel[2 * i + 1] << std::endl;
     }
     out_pv_rel.close();
-    
+    */
     double dt = difftime(time(NULL), tStart);
     std::cout << "Done in " << (int)dt/60 << "m " << (int)dt%60 << "s!" << std::endl;
     
