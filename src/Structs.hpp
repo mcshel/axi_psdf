@@ -100,6 +100,7 @@ struct velocity_int_params {
     double psiRz;
     double v;
     double vf;
+    int moment;
 };
 
 struct relative_velocity_int_params {
@@ -114,6 +115,7 @@ struct relative_velocity_int_params {
     double uf;
     double um;
     double wf;
+    int moment;
 };
 
 struct potential_int_params {
@@ -125,4 +127,19 @@ struct potential_int_params {
     double q;
     double tolerance;
     size_t nIntervals;
+};
+
+struct occupation_params {
+    void *model;
+    void *inversion;
+    size_t nIntervals;
+    double Emin;
+    double Emax;
+    double Lzmin;
+    double Lzmax;
+    double tolerance;
+    double R;
+    double z;
+    double psiRz;
+    double E;
 };
